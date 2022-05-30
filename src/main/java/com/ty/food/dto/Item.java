@@ -16,9 +16,10 @@ public class Item {
 	private String name;
 	private int quantity;
 	private double cost;
+	private double mrp;
 
 	@ManyToOne
-	@JoinColumn(name = "my_id")
+	@JoinColumn(name = "my_FoodOrder_Id")
 	FoodOrder foodOrder;
 
 	public int getId() {
@@ -50,7 +51,8 @@ public class Item {
 	}
 
 	public void setCost(double cost) {
-		this.cost = cost;
+		this.mrp = cost;
+		this.cost = quantity * cost;
 	}
 
 	public FoodOrder getFoodOrder() {
@@ -61,15 +63,11 @@ public class Item {
 		this.foodOrder = foodOrder;
 	}
 
+	public static int i;  // In order to Print Items In Serial Order from Menu
+
 	@Override
 	public String toString() {
-		System.out.println();
-		System.out.println("Id : " + id);
-		System.out.println("Name : " + name);
-		System.out.println("Quantity : " + quantity);
-		System.out.println("Cost : " + cost);
-		System.out.println("--------------------");
-		System.out.println();
+		System.out.println(i++ + "\t" + name + "\t   " + quantity + "       " + mrp + "\t" + cost);
 		return "";
 	}
 

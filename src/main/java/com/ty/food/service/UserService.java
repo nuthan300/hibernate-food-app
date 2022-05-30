@@ -9,7 +9,7 @@ public class UserService {
 
 	UserDao dao = new UserDao();
 
-	public User saveUSer(User user) {
+	public boolean saveUSer(User user) {
 		return dao.saveUser(user);
 	}
 
@@ -17,12 +17,11 @@ public class UserService {
 		return dao.getUserById(id);
 	}
 
-	public User deleteUserbyId(int id) {
+	public boolean deleteUserbyId(int id) {
 		return dao.deleteUserbyId(id);
 	}
 
-	public List<User> validateUser(String email, String password) {
-		System.out.println("Found.....!");
+	public User validateUser(String email, String password) {
 		return dao.validateUser(email, password);
 	}
 

@@ -2,7 +2,9 @@ package com.ty.food.dto;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +20,7 @@ public class FoodOrder {
 	private long phone;
 	private int total;
 
-	@OneToMany(mappedBy = "foodOrder")
+	@OneToMany(mappedBy = "foodOrder",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	List<Item> items;
 
 	public int getId() {
@@ -49,7 +51,7 @@ public class FoodOrder {
 		return total;
 	}
 
-	public void setTotale(int total) {
+	public void setTotal(int total) {
 		this.total = total;
 	}
 

@@ -8,6 +8,6 @@ public class ValidateUser {
 		
 		UserService service=new UserService();
 		
-		service.validateUser("prashat@gmai.com", "PP123");
+		System.out.println(service.validateUser("prashnt@gmail.com", "PP123"));
 	}
 }

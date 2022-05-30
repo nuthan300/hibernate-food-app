@@ -1,11 +1,11 @@
 package com.ty.food.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -17,11 +17,11 @@ public class UserDao {
 	EntityManager entityManager = entityManagerFactory.createEntityManager();
 	EntityTransaction entityTransaction = entityManager.getTransaction();
 
-	public User saveUser(User user) {
+	public boolean saveUser(User user) {
 		entityTransaction.begin();
 		entityManager.persist(user);
 		entityTransaction.commit();
-		return user;
+		return true;
 	}
 
 	public User getUserById(int id) {
@@ -29,27 +29,31 @@ public class UserDao {
 		return user;
 	}
 
-	public User deleteUserbyId(int id) {
+	public boolean deleteUserbyId(int id) {
 		User user = entityManager.find(User.class, id);
 		entityTransaction.begin();
 		entityManager.remove(user);
 		entityTransaction.commit();
-		return user;
-		
+		return true;
+
 	}
 
-	public List<User> validateUser(String email, String password) {
+	public User validateUser(String email, String password) {
 		Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.email=?1 AND u.password=?2");
 		query.setParameter(1, email);
 		query.setParameter(2, password);
-		return query.getResultList();
+		User user = null;
+		try {
+			user = (User) query.getSingleResult();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<User> getAllUser() {
-		Query query = entityManager.createQuery("SELECT U FROM User U");
-
-		List<User> users = query.getResultList();
-
-		return users;
+		Query query = entityManager.createQuery("SELECT u FROM User u");
+		return query.getResultList();
 	}
 }
